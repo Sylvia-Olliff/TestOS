@@ -109,7 +109,6 @@ int printf(const char* restrict format, ...) {
 					return -1;
 				written += len;
 		} else if (*format == 'i') {
-			// FIXME: Negative numbers are getting an 'S' added to the end
 			format++;
 			int num = va_arg(parameters, int);
 			size_t size = 0;
@@ -161,8 +160,8 @@ int printf(const char* restrict format, ...) {
 		} else if (*format == 'f') {
 			format++;
 			float num = (float) va_arg(parameters, double); /* float promotes to double */
-			float decimalRight = num - (int) num;
-			int decimalLeft = (int) num;
+			float decimalLeft = (float) ((int) num);
+			float decimalRight = num - decimalLeft;
 			int factor = 1;
 
 			if (num < 0) {
@@ -175,7 +174,7 @@ int printf(const char* restrict format, ...) {
 			size_t index = 0;
 
 			int digit;
-			float count = 1;
+			float count = 1.0;
 
 			char* str;
 			memset(str, 0, sizeof str);
@@ -184,10 +183,11 @@ int printf(const char* restrict format, ...) {
 				++sizeLeft;
 				count *= 10;
 			}
-			count = 1;
+			count = 1.0;
 			while (count >= decimalRight) {
+				puts("\nsizeRight incremented\n");
 				++sizeRight;
-				count /= 10;
+				count *= 0.1;
 			}
 
 			while (sizeLeft > 0) {

@@ -7,6 +7,6 @@ void kernel_main(void) {
 	for (int i = 1; i < 35; i++) {
 		printf("Line Number: %i\n", i);
 	}
-	printf("This is a test of floating numbers converted to string: %f\n", 567.907);
+	printf("This is a test of floating numbers converted to string: %f\n", 567.917);
 	printf("test of negative numbers: %i\n", -234);
 }
